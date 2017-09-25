@@ -13,5 +13,7 @@ services:
       - DOMAIN=localhost
       - USERNAME=admin
       - PASSWORD=password
+    cap_add:
+      - MKNOD
 #    entrypoint: /start.sh
 #    command:
