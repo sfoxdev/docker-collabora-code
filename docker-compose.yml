@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+
+  collabora:
+    container_name: collabora
+    build: .
+    image: sfoxdev/collabora
+    restart: always
+    ports:
+      - 9980:9980
+    environment:
+      - DOMAIN=localhost
+      - USERNAME=admin
+      - PASSWORD=password
+#    entrypoint: /start.sh
+#    command:
