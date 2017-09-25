@@ -5,7 +5,7 @@ services:
   collabora:
     container_name: collabora
     build: .
-    image: sfoxdev/collabora
+    image: sfoxdev/collabora-code
     restart: always
     ports:
       - 9980:9980
