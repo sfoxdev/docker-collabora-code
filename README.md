@@ -18,8 +18,7 @@ Stop container
 docker-compose down
 ```
 
-## After start login as
+## After start add ca-chain to resorces folder
 ```
-login:    admin
-password: password
+cat ./ssl/ca-chain.cert.pem >> /var/www/html/resources/config/ca-bundle.crt
 ```

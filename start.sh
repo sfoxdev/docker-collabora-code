@@ -1,4 +1,5 @@
 #!/bin/bash
+
 if [ -z "$DOMAIN" ]; then
   hostname=localhost
 else
@@ -11,20 +12,8 @@ DOMAIN_NAME=$(echo "$DOMAIN" | sed 's/\./\\\\./g')
 rm /opt/lool/systemplate/etc/resolv.conf
 ln -s /etc/resolv.conf /opt/lool/systemplate/etc/resolv.conf
 
-# Generate new SSL certificate instead of using the default
-mkdir -p /opt/ssl/
-cd /opt/ssl/
-mkdir -p certs/ca
-openssl genrsa -out certs/ca/root.key.pem 2048
-openssl req -x509 -new -nodes -key certs/ca/root.key.pem -days 9131 -out certs/ca/root.crt.pem -subj "/C=CA/ST=BCN/L=Barcelona/O=Dummy Authority/CN=Dummy Authority"
-mkdir -p certs/{servers,tmp}
-mkdir -p "certs/servers/${hostname}"
-openssl genrsa -out "certs/servers/${hostname}/privkey.pem" 2048 -key "certs/servers/${hostname}/privkey.pem"
-openssl req -key "certs/servers/${hostname}/privkey.pem" -new -sha256 -out "certs/tmp/${hostname}.csr.pem" -subj "/C=CA/ST=BCN/L=Barcelona/O=Dummy Authority/CN=${hostname}"
-openssl x509 -req -in certs/tmp/${hostname}.csr.pem -CA certs/ca/root.crt.pem -CAkey certs/ca/root.key.pem -CAcreateserial -out certs/servers/${hostname}/cert.pem -days 9131
-mv certs/servers/${hostname}/privkey.pem /etc/loolwsd/key.pem
-mv certs/servers/${hostname}/cert.pem /etc/loolwsd/cert.pem
-mv certs/ca/root.crt.pem /etc/loolwsd/ca-chain.cert.pem
+cp /srv/ssl/* /etc/loolwsd/
+chmod 644 /etc/loolwsd/*
 
 # Replace trusted host and set admin username and password
 perl -pi -e "s/localhost<\/host>/${DOMAIN_NAME}<\/host>/g" /etc/loolwsd/loolwsd.xml

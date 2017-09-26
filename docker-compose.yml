@@ -5,7 +5,7 @@ services:
   collabora:
     container_name: collabora
     build: .
-    image: sfoxdev/collabora-code
+    image: sfoxdev/collabora
     restart: always
     ports:
       - 9980:9980
@@ -15,5 +15,3 @@ services:
       - PASSWORD=password
     cap_add:
       - MKNOD
-#    entrypoint: /start.sh
-#    command:
